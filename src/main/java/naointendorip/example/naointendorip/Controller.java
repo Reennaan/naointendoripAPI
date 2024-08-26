@@ -2,13 +2,12 @@ package naointendorip.example.naointendorip;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class Controller {
         return doc.select(selector);
     }
 
-
+    @CrossOrigin("*")
     @GetMapping("/game")
     public List<Game> recentGames() throws IOException {
         Document doc = Jsoup.connect(url).timeout(90000).get();
@@ -50,7 +49,7 @@ public class Controller {
 
         return result;
     }
-
+    @CrossOrigin("*")
     @GetMapping("/search/{name}")
     @ResponseBody
     public List<Game> search(@PathVariable("name") String name) throws IOException {
@@ -72,6 +71,43 @@ public class Controller {
 
         return games;
     }
+    @CrossOrigin("*")
+    @GetMapping("/download/{link}")
+    public GameDonwload download(@PathVariable String link) throws IOException {
+        url = link.replaceAll("%","/");
 
+        //String decodedUrl = URLDecoder.decode(link, StandardCharsets.UTF_8);
+        //System.out.println(decodedUrl);
+        //link = "https://switchromz.com/mario-kart-8-deluxe-nsw-rom";
+        Document doc = Jsoup.connect(url).timeout(90000).get();
+
+
+
+        Elements paragraphs = doc.select("p");
+        Elements features = new Elements(paragraphs.subList(0,Math.min(3,paragraphs.size())));
+        Elements downloads = doc.select("div > div.wp-block-kadence-column > div.kt-inside-inner-col > div.wp-block-kadence-advancedbtn a > span");
+        Elements dLinks = doc.select("div > div.wp-block-kadence-column > div.kt-inside-inner-col > div.wp-block-kadence-advancedbtn a");
+        GameDonwload gameDonwload = new GameDonwload();
+        gameDonwload.downloadName = new ArrayList<>();
+        gameDonwload.donloadLink = new ArrayList<>();
+        gameDonwload.setName(doc.select(".entry-title").text());
+        gameDonwload.setImg(doc.select(".post-thumbnail-inner img").attr("srcset"));
+        gameDonwload.setTable(doc.select("figure.wp-block-table table").toString());
+        gameDonwload.setFeatures(features.text());
+        gameDonwload.setReview(paragraphs.get(3).text());
+
+        for(int i =0; i < downloads.size(); i++){
+            gameDonwload.downloadName.add(downloads.get(i).text());
+            gameDonwload.donloadLink.add(dLinks.get(i).attr("href"));
+        }
+
+
+        System.out.println(gameDonwload.getName()+gameDonwload.getReview());
+
+
+
+        return gameDonwload;
+
+    }
 
 }
