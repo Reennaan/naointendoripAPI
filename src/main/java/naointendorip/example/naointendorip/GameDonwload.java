@@ -10,21 +10,21 @@ public class GameDonwload {
     String features;
     String review;
     List<String> downloadName;
-    List<String> donloadLink;
+    List<String> downloadLink;
 
     public GameDonwload(){
 
     }
 
 
-    public GameDonwload(String name, String img, String table, String features, String review, List<String> downloadName, List<String> donloadLink) {
+    public GameDonwload(String name, String img, String table, String features, String review, List<String> downloadName, List<String> downloadLink) {
         this.name = name;
         this.img = img;
         this.table = table;
         this.features = features;
         this.review = review;
         this.downloadName = new ArrayList<>();
-        this.donloadLink = new ArrayList<>();
+        this.downloadLink = new ArrayList<>();
     }
 
     public Object getTable() {
@@ -51,8 +51,8 @@ public class GameDonwload {
         return downloadName;
     }
 
-    public List getDonloadLink() {
-        return donloadLink;
+    public List getDownloadLink() {
+        return downloadLink;
     }
 
     public void setName(String name) {
@@ -79,7 +79,7 @@ public class GameDonwload {
         this.downloadName = downloadName;
     }
 
-    public void setDonloadLink(List donloadLink) {
-        this.donloadLink = donloadLink;
+    public void setDownloadLink(List downloadLink) {
+        this.downloadLink = downloadLink;
     }
 }
