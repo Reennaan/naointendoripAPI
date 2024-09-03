@@ -16,8 +16,8 @@ public class PermissionsPolicyFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        httpServletResponse.setHeader("Permissions-Policy", "geolocation=(self), microphone=()");
+        //HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        //httpServletResponse.setHeader("Permissions-Policy", "geolocation=(self), microphone=()");
         chain.doFilter(request, response);
     }
 
