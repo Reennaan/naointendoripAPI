@@ -84,7 +84,7 @@ public class Controller {
         GameDonwload gameDonwload = new GameDonwload();
         gameDonwload.downloadName = new ArrayList<>();
         gameDonwload.downloadLink = new ArrayList<>();
-        gameDonwload.setName(doc.select(".entry-title").text());
+        gameDonwload.setName(doc.select("h1.entry-title").text());
         gameDonwload.setImg(doc.select(".post-thumbnail-inner img").attr("srcset"));
         gameDonwload.setTable(doc.select("figure.wp-block-table table").toString());
         gameDonwload.setFeatures(features.text());
